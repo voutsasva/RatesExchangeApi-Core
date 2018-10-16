@@ -14,6 +14,8 @@ The main class is [`RatesExchangeApiService`](https://github.com/voutsasva/Rates
 
 An example console app is included. In order to use it replace the `[YOUR_API_KEY]` with your own API key from rates exchange api.
 
+### Quick Start
+
 ```c#
 using RatesExchangeApi;
 using RatesExchangeApi.Models;
