@@ -6,6 +6,10 @@ using RatesExchangeApi.Models;
 
 namespace RatesExchangeApi
 {
+    /// <summary>
+    /// The Rates Exchange Api Service. Returns ECB rates,
+    /// and provides API usage information.
+    /// </summary>
     public class RatesExchangeApiService
     {
 
@@ -13,7 +17,9 @@ namespace RatesExchangeApi
         /// The API key to use in all requests.
         /// </summary>
         private readonly string _apiKey;
-        
+
+        #region Consts
+
         private const string ApiBaseUrl = "https://api.ratesexchange.eu";
         private const string CheckIfApiIsOnLineUrl = "{0}/client/checkapi";
         private const string GetLatestRatesUrl = "{0}/client/latest?apikey={1}&base_currency={2}&currencies={3}";
@@ -24,12 +30,26 @@ namespace RatesExchangeApi
         private const string ConvertCurrencyUrl = "{0}/client/convert?apiKey={1}&from={2}&amount={3}&date={4}&currencies={5}";
         private const string ConvertCurrencyDetailsUrl = "{0}/client/convertdetails?apiKey={1}&from={2}&amount={3}&date={4}&currencies={5}";
         private const string GetCurrenciesUrl = "{0}/client/currencies?apiKey={1}";
+        
+        #endregion
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RatesExchangeApiService"/> class.
+        /// </summary>
+        /// <param name="key">
+        /// The API key to use.
+        /// </param>
         public RatesExchangeApiService(string key)
         {
             _apiKey = key;
         }
 
+        /// <summary>
+        /// Asynchronously checks if API is online or not
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Task"/> for a <see cref="BoolResponse"/> with the requested data.
+        /// </returns>
         public async Task<BoolResponse> CheckIfApiIsOnline()
         {
             var requestUrl = string.Format(CultureInfo.InvariantCulture, CheckIfApiIsOnLineUrl, ApiBaseUrl);
@@ -37,6 +57,21 @@ namespace RatesExchangeApi
             return resp;
         }
 
+        /// <summary>
+        /// Asynchronously retrieves the latest rates
+        /// </summary>
+        /// <param name="baseCurrency">
+        /// Base currency (ISO format)
+        /// </param>
+        /// <param name="currencies">
+        /// List of currencies (ISO format) separated by a comma (optional)
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> for a <see cref="RatesResponse"/> with the requested data, or null if the data was corrupted.
+        /// </returns>
+        /// <exception cref="ValidationException">
+        /// Thrown when the service returned anything other than a 200 (Status OK) code.
+        /// </exception>
         public async Task<RatesResponse> GetLatestRates(string baseCurrency, string currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
@@ -45,6 +80,21 @@ namespace RatesExchangeApi
             return resp;
         }
 
+        /// <summary>
+        /// Asynchronously retrieves the latest rates
+        /// </summary>
+        /// <param name="baseCurrency">
+        /// Base currency (ISO format)
+        /// </param>
+        /// <param name="currencies">
+        /// List of currencies (ISO format) separated by a comma (optional)
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> for a <see cref="RatesDetailsResponse"/> with the requested data, or null if the data was corrupted.
+        /// </returns>
+        /// <exception cref="ValidationException">
+        /// Thrown when the service returned anything other than a 200 (Status OK) code.
+        /// </exception>
         public Task<RatesDetailsResponse> GetLatestDetailsRates(string baseCurrency, string currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
@@ -52,6 +102,24 @@ namespace RatesExchangeApi
             return HttpHandler.GetResponseFromUrlAsync<RatesDetailsResponse>(requestUrl);
         }
 
+        /// <summary>
+        /// Asynchronously retrieves rates for a specific date
+        /// </summary>
+        /// <param name="baseCurrency">
+        /// Base currency (ISO format)
+        /// </param>
+        /// <param name="currencies">
+        /// List of currencies (ISO format) separated by a comma (optional)
+        /// </param>
+        /// <param name="date">
+        /// Rates date (format: YYYY-MM-DD)
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> for a <see cref="RatesResponse"/> with the requested data, or null if the data was corrupted.
+        /// </returns>
+        /// <exception cref="ValidationException">
+        /// Thrown when the service returned anything other than a 200 (Status OK) code.
+        /// </exception>
         public Task<RatesResponse> GetHistoryRates(string baseCurrency, string date, string currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
@@ -59,6 +127,24 @@ namespace RatesExchangeApi
             return HttpHandler.GetResponseFromUrlAsync<RatesResponse>(requestUrl);
         }
 
+        /// <summary>
+        /// Asynchronously retrieves rates for a specific date
+        /// </summary>
+        /// <param name="baseCurrency">
+        /// Base currency (ISO format)
+        /// </param>
+        /// <param name="currencies">
+        /// List of currencies (ISO format) separated by a comma (optional)
+        /// </param>
+        /// <param name="date">
+        /// Rates date (format: YYYY-MM-DD)
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> for a <see cref="RatesDetailsResponse"/> with the requested data, or null if the data was corrupted.
+        /// </returns>
+        /// <exception cref="ValidationException">
+        /// Thrown when the service returned anything other than a 200 (Status OK) code.
+        /// </exception>
         public Task<RatesDetailsResponse> GetHistoryDetailsRates(string baseCurrency, string date, string currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
@@ -66,6 +152,21 @@ namespace RatesExchangeApi
             return HttpHandler.GetResponseFromUrlAsync<RatesDetailsResponse>(requestUrl);
         }
 
+        /// <summary>
+        /// Asynchronously retrieves rates for a specific currency <see cref="baseCurrency"/>
+        /// </summary>
+        /// <param name="baseCurrency">
+        /// Base currency (ISO format)
+        /// </param>
+        /// <param name="date">
+        /// Rates date (format: YYYY-MM-DD)
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> for a <see cref="RatesHistoryResponse"/> with the requested data, or null if the data was corrupted.
+        /// </returns>
+        /// <exception cref="ValidationException">
+        /// Thrown when the service returned anything other than a 200 (Status OK) code.
+        /// </exception>
         public Task<RatesHistoryResponse> GetHistoryRatesForCurrency(string baseCurrency, string date)
         {
             ThrowExceptionIfApiKeyInvalid();
@@ -73,6 +174,27 @@ namespace RatesExchangeApi
             return HttpHandler.GetResponseFromUrlAsync<RatesHistoryResponse>(requestUrl);
         }
 
+        /// <summary>
+        /// Asynchronously converts from one currency <see cref="fromCurrency"/> to many <see cref="currencies"/> for a specific date.
+        /// </summary>
+        /// <param name="fromCurrency">
+        /// Currency to convert (ISO format)
+        /// </param>
+        /// <param name="currencies">
+        /// List of currencies (ISO format) separated by a comma (optional)
+        /// </param>
+        /// <param name="date">
+        /// Rates date (format: YYYY-MM-DD)
+        /// </param>
+        /// <param name="amount">
+        /// Amount to convert (ex: 100,50)
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> for a <see cref="RatesResponse"/> with the requested data, or null if the data was corrupted.
+        /// </returns>
+        /// <exception cref="ValidationException">
+        /// Thrown when the service returned anything other than a 200 (Status OK) code.
+        /// </exception>
         public Task<RatesResponse> ConvertCurrency(string fromCurrency, string amount, string date, string currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
@@ -80,6 +202,27 @@ namespace RatesExchangeApi
             return HttpHandler.GetResponseFromUrlAsync<RatesResponse>(requestUrl);
         }
 
+        /// <summary>
+        /// Asynchronously converts from one currency <see cref="fromCurrency"/> to many <see cref="currencies"/> for a specific date.
+        /// </summary>
+        /// <param name="fromCurrency">
+        /// Currency to convert (ISO format)
+        /// </param>
+        /// <param name="currencies">
+        /// List of currencies (ISO format) separated by a comma (optional)
+        /// </param>
+        /// <param name="date">
+        /// Rates date (format: YYYY-MM-DD)
+        /// </param>
+        /// <param name="amount">
+        /// Amount to convert (ex: 100,50)
+        /// </param>
+        /// <returns>
+        /// A <see cref="Task"/> for a <see cref="RatesDetailsResponse"/> with the requested data, or null if the data was corrupted.
+        /// </returns>
+        /// <exception cref="ValidationException">
+        /// Thrown when the service returned anything other than a 200 (Status OK) code.
+        /// </exception>
         public Task<RatesDetailsResponse> ConvertCurrencyDetails(string fromCurrency, string amount, string date, string currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
@@ -87,6 +230,15 @@ namespace RatesExchangeApi
             return HttpHandler.GetResponseFromUrlAsync<RatesDetailsResponse>(requestUrl);
         }
 
+        /// <summary>
+        /// Asynchronously retrieves all available currencies
+        /// </summary>
+        /// <returns>
+        /// A <see cref="Task"/> for a <see cref="CurrenciesResponse"/> with the requested data, or null if the data was corrupted.
+        /// </returns>
+        /// <exception cref="ValidationException">
+        /// Thrown when the service returned anything other than a 200 (Status OK) code.
+        /// </exception>
         public Task<List<CurrenciesResponse>> GetCurrencies()
         {
             ThrowExceptionIfApiKeyInvalid();
