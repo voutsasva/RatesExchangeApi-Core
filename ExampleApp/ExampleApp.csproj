@@ -8,10 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="11.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\RatesExchangeApi\RatesExchangeApi.csproj" />
+    <PackageReference Include="RatesExchangeApi" Version="1.0.0" />
   </ItemGroup>
 
 </Project>

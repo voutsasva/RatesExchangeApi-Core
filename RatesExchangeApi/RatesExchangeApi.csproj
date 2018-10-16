@@ -7,6 +7,11 @@
     <Description>A .NET Standard library for using the Rates Exchange API.</Description>
     <Copyright>Copyright (c) 2018 Vassilis Voutsas</Copyright>
     <PackageTags>RatesExchangeApi;currency;converter;exchange;api;rates;ecb;dotnetcore;core;netstandard</PackageTags>
+    <PackageLicenseUrl>https://github.com/voutsasva/RatesExchangeApi-Core/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/voutsasva/RatesExchangeApi-Core</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/voutsasva/RatesExchangeApi-Core.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIconUrl>https://avatars0.githubusercontent.com/u/16755826?s=460&amp;v=4</PackageIconUrl>
   </PropertyGroup>
 
   <ItemGroup>
