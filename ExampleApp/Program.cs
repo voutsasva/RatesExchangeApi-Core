@@ -5,9 +5,9 @@ using Newtonsoft.Json;
 
 namespace ExampleApp
 {
-    internal class Program
+    internal static class Program
     {
-        private const string ApiKey = "";
+        private const string ApiKey = "[YOUR_API_KEY]";
 
         private static void Main()
         {
@@ -16,7 +16,7 @@ namespace ExampleApp
                 var client = new RatesExchangeApiService(ApiKey);
                 CheckIfApiIsOnline(client).Wait();
                 GetLatestRates(client, "EUR").Wait(); 
-                ConvertCurrency(client, "USD", "100", "2018-06-25").Wait();
+                ConvertCurrency(client, "USD", "100", "2018-06-25", "JPY,KRW,CHF,AUD,GBP,EUR").Wait();
             }
             catch (Exception exception)
             {
@@ -39,10 +39,10 @@ namespace ExampleApp
             Console.WriteLine(parsed);
         }
 
-        private static async Task ConvertCurrency(RatesExchangeApiService client, string fromCurrency, string amount, string date)
+        private static async Task ConvertCurrency(RatesExchangeApiService client, string fromCurrency, string amount, string date, string currencies)
         {
-            Console.WriteLine($"-- Convert currency. From '{fromCurrency}' to all");
-            var parsed = JsonConvert.SerializeObject(await client.ConvertCurrency(fromCurrency, amount, date), Formatting.Indented);
+            Console.WriteLine($"-- Convert {amount} {fromCurrency} to {currencies}.");
+            var parsed = JsonConvert.SerializeObject(await client.ConvertCurrency(fromCurrency, amount, date, currencies), Formatting.Indented);
             Console.WriteLine(parsed);
         }
     }
