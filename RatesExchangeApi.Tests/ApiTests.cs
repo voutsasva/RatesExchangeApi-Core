@@ -8,27 +8,27 @@ namespace RatesExchangeApi.Tests
     [TestFixture]
     public class ApiTests
     {
-        private const string ApiKey = "";
+        private const string ApiKey = "[YOUR_API_KEY]";
         private const string BaseCurrency = "EUR";
         private const string OtherCurrency = "USD";
         private const string HistoryDateForRates = "2018-06-01";
 
         [Fact]
-        public void NullKeyThrowsException()
+        public void NullApiKeyThrowsException()
         {
             var client = new RatesExchangeApiService(null);
-            Assert.That(async () => await client.CheckIfApiIsOnline(), Throws.InvalidOperationException);
+            Assert.That(async () => await client.GetLatestRates(BaseCurrency), Throws.InvalidOperationException);
         }
 
         [Fact]
-        public void EmptyKeyThrowsException()
+        public void EmptyApiKeyThrowsException()
         {
             var client = new RatesExchangeApiService(string.Empty);
-            Assert.That(async () => await client.CheckIfApiIsOnline(), Throws.InvalidOperationException);
+            Assert.That(async () => await client.GetLatestRates(BaseCurrency), Throws.InvalidOperationException);
         }
 
         [Fact]
-        public async Task ValidKeyRetrievesData()
+        public async Task ValidApiKeyRetrievesData()
         {
             var client = new RatesExchangeApiService(ApiKey);
             var result = await client.CheckIfApiIsOnline();
