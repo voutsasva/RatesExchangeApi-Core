@@ -31,7 +31,7 @@ namespace RatesExchangeApi.Tests
         public async Task ValidApiKeyRetrievesData()
         {
             var client = new RatesExchangeApiService(ApiKey);
-            var result = await client.CheckIfApiIsOnline();
+            var result = await RatesExchangeApiService.CheckIfApiIsOnline();
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Result, Is.Not.Null);
         }
