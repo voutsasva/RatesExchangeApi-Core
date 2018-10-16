@@ -7,8 +7,8 @@ using RatesExchangeApi.Models;
 namespace RatesExchangeApi
 {
     /// <summary>
-    /// The Rates Exchange Api Service. Returns ECB rates,
-    /// and provides API usage information.
+    /// Wrapper class for interacting with the Rates Exchange Api.
+    /// Returns ECB rates and provides API usage information.
     /// </summary>
     public class RatesExchangeApiService
     {

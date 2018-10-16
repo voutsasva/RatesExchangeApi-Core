@@ -2,6 +2,11 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Vassilis Voutsas</Authors>
+    <Product>RatesExchangeApi</Product>
+    <Description>A .NET Standard library for using the Rates Exchange API.</Description>
+    <Copyright>Copyright (c) 2018 Vassilis Voutsas</Copyright>
+    <PackageTags>RatesExchangeApi;currency;converter;exchange;api;rates;ecb;dotnetcore;core;netstandard</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
