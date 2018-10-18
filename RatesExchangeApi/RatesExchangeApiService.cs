@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 using RatesExchangeApi.Models;
 
@@ -71,10 +73,11 @@ namespace RatesExchangeApi
         /// <exception cref="ValidationException">
         /// Thrown when the service returned anything other than a 200 (Status OK) code.
         /// </exception>
-        public async Task<RatesResponse> GetLatestRates(string baseCurrency, string currencies = null)
+        public async Task<RatesResponse> GetLatestRates(string baseCurrency, List<string> currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
-            var requestUrl = string.Format(CultureInfo.InvariantCulture, GetLatestRatesUrl, ApiBaseUrl, _apiKey, baseCurrency, currencies);
+            var currenciesList = CheckCurrenciesValues(currencies);
+            var requestUrl = string.Format(CultureInfo.InvariantCulture, GetLatestRatesUrl, ApiBaseUrl, _apiKey, baseCurrency, currenciesList);
             return await HttpHandler.GetResponseFromUrlAsync<RatesResponse>(requestUrl);
         }
 
@@ -93,10 +96,11 @@ namespace RatesExchangeApi
         /// <exception cref="ValidationException">
         /// Thrown when the service returned anything other than a 200 (Status OK) code.
         /// </exception>
-        public async Task<RatesDetailsResponse> GetLatestDetailsRates(string baseCurrency, string currencies = null)
+        public async Task<RatesDetailsResponse> GetLatestDetailsRates(string baseCurrency, List<string> currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
-            var requestUrl = string.Format(CultureInfo.InvariantCulture, GetLatestDetailsRatesUrl, ApiBaseUrl, _apiKey, baseCurrency, currencies);
+            var currenciesList = CheckCurrenciesValues(currencies);
+            var requestUrl = string.Format(CultureInfo.InvariantCulture, GetLatestDetailsRatesUrl, ApiBaseUrl, _apiKey, baseCurrency, currenciesList);
             return await HttpHandler.GetResponseFromUrlAsync<RatesDetailsResponse>(requestUrl);
         }
 
@@ -118,10 +122,11 @@ namespace RatesExchangeApi
         /// <exception cref="ValidationException">
         /// Thrown when the service returned anything other than a 200 (Status OK) code.
         /// </exception>
-        public async Task<RatesResponse> GetHistoryRates(string baseCurrency, string date, string currencies = null)
+        public async Task<RatesResponse> GetHistoryRates(string baseCurrency, string date, List<string> currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
-            var requestUrl = string.Format(CultureInfo.InvariantCulture, GetHistoryRatesUrl, ApiBaseUrl, _apiKey, baseCurrency, date, currencies);
+            var currenciesList = CheckCurrenciesValues(currencies);
+            var requestUrl = string.Format(CultureInfo.InvariantCulture, GetHistoryRatesUrl, ApiBaseUrl, _apiKey, baseCurrency, date, currenciesList);
             return await HttpHandler.GetResponseFromUrlAsync<RatesResponse>(requestUrl);
         }
 
@@ -143,10 +148,11 @@ namespace RatesExchangeApi
         /// <exception cref="ValidationException">
         /// Thrown when the service returned anything other than a 200 (Status OK) code.
         /// </exception>
-        public async Task<RatesDetailsResponse> GetHistoryDetailsRates(string baseCurrency, string date, string currencies = null)
+        public async Task<RatesDetailsResponse> GetHistoryDetailsRates(string baseCurrency, string date, List<string> currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
-            var requestUrl = string.Format(CultureInfo.InvariantCulture, GetHistoryDetailsRatesUrl, ApiBaseUrl, _apiKey, baseCurrency, date, currencies);
+            var currenciesList = CheckCurrenciesValues(currencies);
+            var requestUrl = string.Format(CultureInfo.InvariantCulture, GetHistoryDetailsRatesUrl, ApiBaseUrl, _apiKey, baseCurrency, date, currenciesList);
             return await HttpHandler.GetResponseFromUrlAsync<RatesDetailsResponse>(requestUrl);
         }
 
@@ -193,10 +199,11 @@ namespace RatesExchangeApi
         /// <exception cref="ValidationException">
         /// Thrown when the service returned anything other than a 200 (Status OK) code.
         /// </exception>
-        public async Task<RatesResponse> ConvertCurrency(string fromCurrency, string amount, string date, string currencies = null)
+        public async Task<RatesResponse> ConvertCurrency(string fromCurrency, string amount, string date, List<string> currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
-            var requestUrl = string.Format(CultureInfo.InvariantCulture, ConvertCurrencyUrl, ApiBaseUrl, _apiKey, fromCurrency, amount, date, currencies);
+            var currenciesList = CheckCurrenciesValues(currencies);
+            var requestUrl = string.Format(CultureInfo.InvariantCulture, ConvertCurrencyUrl, ApiBaseUrl, _apiKey, fromCurrency, amount, date, currenciesList);
             return await HttpHandler.GetResponseFromUrlAsync<RatesResponse>(requestUrl);
         }
 
@@ -221,10 +228,11 @@ namespace RatesExchangeApi
         /// <exception cref="ValidationException">
         /// Thrown when the service returned anything other than a 200 (Status OK) code.
         /// </exception>
-        public async Task<RatesDetailsResponse> ConvertCurrencyDetails(string fromCurrency, string amount, string date, string currencies = null)
+        public async Task<RatesDetailsResponse> ConvertCurrencyDetails(string fromCurrency, string amount, string date, List<string> currencies = null)
         {
             ThrowExceptionIfApiKeyInvalid();
-            var requestUrl = string.Format(CultureInfo.InvariantCulture, ConvertCurrencyDetailsUrl, ApiBaseUrl, _apiKey, fromCurrency, amount, date, currencies);
+            var currenciesList = CheckCurrenciesValues(currencies);
+            var requestUrl = string.Format(CultureInfo.InvariantCulture, ConvertCurrencyDetailsUrl, ApiBaseUrl, _apiKey, fromCurrency, amount, date, currenciesList);
             return await HttpHandler.GetResponseFromUrlAsync<RatesDetailsResponse>(requestUrl);
         }
 
@@ -256,6 +264,14 @@ namespace RatesExchangeApi
             {
                 throw new InvalidOperationException("No API key was given.");
             }
+        }
+
+        private static string CheckCurrenciesValues(IReadOnlyCollection<string> currencies)
+        {
+            if (currencies == null) return null;
+            var currenciesList = new StringBuilder();
+            currenciesList.Append(string.Join(",", currencies.Select(x => x.ToString().ToLowerInvariant())));
+            return currenciesList.ToString();
         }
 
         #endregion
