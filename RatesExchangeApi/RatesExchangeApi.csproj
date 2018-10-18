@@ -12,6 +12,8 @@
     <RepositoryUrl>https://github.com/voutsasva/RatesExchangeApi-Core.git</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <PackageIconUrl>https://avatars0.githubusercontent.com/u/16755826?s=460&amp;v=4</PackageIconUrl>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>currencies property accepts now list of string</PackageReleaseNotes>
   </PropertyGroup>
 
   <ItemGroup>
