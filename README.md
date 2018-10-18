@@ -16,20 +16,37 @@ An example console app is included. In order to use it replace the `[YOUR_API_KE
 
 ### Quick Start
 
+#### Initialization
 ```c#
 using RatesExchangeApi;
 using RatesExchangeApi.Models;
-
 ...
-
 var client = new RatesExchangeApiService("[YOUR_API_KEY]");
-
-var result = await client.CheckIfApiIsOnline();
-
-var rates = await client.GetLatestRates("USD");
-
 ...
+```
 
+#### Check if API is online
+```c#
+...
+var result = await client.CheckIfApiIsOnline();
+...
+```
+
+#### Get latest rates from ECB
+```c#
+...
+var rates = await client.GetLatestRates("USD");
+...
+List<string> isoCurrencies = new List<string> { "USD", "CHF", "GBP", "AUD", "JPY" };
+var rates = await client.GetLatestRates("USD", isoCurrencies);
+...
+```
+
+#### Convert rates
+```c#
+...
+var rates = await client.ConvertCurrency("USD", "120", "2018-06-01");
+...
 ```
 
 ## Tests
