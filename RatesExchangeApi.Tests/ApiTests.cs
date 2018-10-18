@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using NUnit.Framework;
 using Xunit;
@@ -40,7 +41,8 @@ namespace RatesExchangeApi.Tests
         public async Task CanGetLatestRates()
         {
             var client = new RatesExchangeApiService(ApiKey);
-            var result = await client.GetLatestRates(BaseCurrency);
+            var currencies = new List<string>{"USD","CHF","GBP"};
+            var result = await client.GetLatestRates(BaseCurrency, currencies);
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Rates, Is.Not.Null);
         }
