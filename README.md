@@ -1,6 +1,6 @@
 # RatesExchangeApi-Core
 
-[![NuGet](https://img.shields.io/badge/nuget-1.0.0-blue.svg)](https://www.nuget.org/packages/RatesExchangeApi)
+[![NuGet](https://img.shields.io/badge/nuget-1.0.1-blue.svg)](https://www.nuget.org/packages/RatesExchangeApi)
 
 A .NET Standard Library for using the [Rates Exchange API](https://www.ratesexchange.eu/).
 
@@ -27,7 +27,9 @@ var client = new RatesExchangeApiService("[YOUR_API_KEY]");
 var result = await client.CheckIfApiIsOnline();
 
 var rates = await client.GetLatestRates("USD");
+
 ...
+
 ```
 
 ## Tests
